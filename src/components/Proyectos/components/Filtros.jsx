@@ -1,4 +1,4 @@
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 
 export const Filtros = ({ props }) => {
   const { filtros, setFiltros } = props;
@@ -58,6 +58,11 @@ export const Filtros = ({ props }) => {
               value={filtros.valoracion}
             />
           </Form.Group>
+        </Col>
+        <Col className="align-items-end d-flex justify-content-end">
+          <Button variant="dark" size="sm" className="mb-3">
+            Agregar proyecto
+          </Button>
         </Col>
       </Row>
     </Form>
