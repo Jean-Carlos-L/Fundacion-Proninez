@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* Estilos para la barra de scroll */
+.scrollbar::-webkit-scrollbar {
+  width: 5px; /* Ancho de la barra de scroll */
+  background-color: #c52323; /* Color de fondo de la barra de scroll */
+}
+
+/* Estilos para el track (fondo) de la barra de scroll */
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #FFFFFF; /* Color de fondo del track */
+}
+
+/* Estilos para el thumb (agarre) de la barra de scroll */
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #212A3E; /* Color del thumb */
+  border-radius: 10px; /* Bordes redondeados del thumb */
+}
+
+/* Estilos cuando se pasa el mouse sobre la barra de scroll */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #943b3b; /* Color del thumb al pasar el mouse */
+}
