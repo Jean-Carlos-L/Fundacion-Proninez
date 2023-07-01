@@ -10,16 +10,16 @@ function Header() {
         </Link>
         <Nav className="me-auto">
           <Link className="nav-link" to="/">
-            Home
-          </Link>
-          <Link className="nav-link" to="infantes">
-            Infantes
+            Proyectos
           </Link>
           <Link className="nav-link" to="objetivos">
             Objetivos
           </Link>
           <Link className="nav-link" to="trabajadores">
             Trabajadores
+          </Link>
+          <Link className="nav-link" to="comunidades">
+            Comunidades
           </Link>
         </Nav>
       </Container>

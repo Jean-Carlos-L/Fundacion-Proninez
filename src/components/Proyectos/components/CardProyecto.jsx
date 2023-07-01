@@ -3,7 +3,7 @@ import { AiFillEye } from "react-icons/ai";
 
 export const CardProyecto = ({ proyecto }) => {
   return (
-    <Card className="shadow">
+    <Card className="shadow" style={{ minHeight: "300px" }}>
       <Card.Body
         style={{ background: "#6B728E" }}
         className="text-white rounded-3"

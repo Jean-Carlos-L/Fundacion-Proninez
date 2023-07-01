@@ -9,32 +9,36 @@ import {
   Button,
 } from "react-bootstrap";
 import { RegistrarTrabajador } from "./components/RegistrarTrabajador";
+import { useTrabajadores } from "../../hooks/useTrabajadores";
 
 function Trabajadores() {
+  const [tipo, setTipo] = useState("false");
   const [show, setShow] = useState(false);
   const [newUser, setNewUser] = useState({
     documento: "",
     nombre_completo: "",
     telefono: "",
-    tipo: "",
-    cargo_especialidad: "",
     email: "",
     salario: 0,
     fecha_nacimiento: "",
     direccion: "",
+    cargo_especialidad: "",
+    tipo: "",
   });
+
+  const { trabajadores } = useTrabajadores(tipo);
 
   const handleClose = () => {
     setNewUser({
       documento: "",
       nombre_completo: "",
       telefono: "",
-      tipo: "",
-      cargo_especialidad: "",
       email: "",
       salario: 0,
       fecha_nacimiento: "",
       direccion: "",
+      cargo_especialidad: "",
+      tipo: "",
     });
     setShow(false);
   };
@@ -53,10 +57,14 @@ function Trabajadores() {
               Tipo trabajador:
             </Form.Label>
             <Col sm="">
-              <Form.Select aria-label="Default select example" size="sm">
-                <option value="">Tipo trabajador</option>
-                <option value="Administrativo">Administrativo</option>
-                <option value="Profesional">Profesional</option>
+              <Form.Select
+                aria-label="Default select example"
+                size="sm"
+                onChange={(e) => setTipo(e.target.value)}
+              >
+                <option value="false">Tipo trabajador</option>
+                <option value="administrativo">Administrativo</option>
+                <option value="profesional">Profesional</option>
               </Form.Select>
             </Col>
           </Form.Group>
@@ -66,7 +74,7 @@ function Trabajadores() {
             Registrar nuevo
           </Button>
           <RegistrarTrabajador
-            props={{ show, handleClose, newUser, setNewUser }}
+            props={{ show, handleClose, newUser, setNewUser, setTipo }}
           />
         </Col>
       </Row>
@@ -85,15 +93,15 @@ function Trabajadores() {
               </tr>
             </thead>
             <tbody>
-              {Array.from({ length: 10 }).map((_, i) => (
+              {trabajadores.map((item, i) => (
                 <tr key={i}>
-                  <td>Documento {i + 1}</td>
-                  <td>Nombre {i + 1}</td>
-                  <td>Email {i + 1}</td>
-                  <td>Teléfono {i + 1}</td>
-                  <td>Dirección {i + 1}</td>
-                  <td>Salarrio {i + 1}</td>
-                  <td>Tipo - Cargo {i + 1}</td>
+                  <td>{item.documento}</td>
+                  <td>{item.nombre_completo}</td>
+                  <td>{item.email}</td>
+                  <td>{item.telefono}</td>
+                  <td>{item.direccion}</td>
+                  <td>{item.salario}</td>
+                  <td>{item.cargo || item.especialidad}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,7 +1,25 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { useComunidades } from "../../../hooks/useComunidades";
+import RegistrarProyectos from "./RegistrarProyectos";
+import { useState } from "react";
+import { useResaponsables } from "../../../hooks/useResponsables";
 
 export const Filtros = ({ props }) => {
   const { filtros, setFiltros } = props;
+
+  const [show, setShow] = useState(false);
+  const [newProyect, setNewProyect] = useState({
+    titulo: "",
+    descripcion: "",
+    fecha_inicio: "",
+    fecha_fin: "",
+    alcance: "",
+    presupuesto: "",
+    tema_id: "",
+    administrativo_id: "",
+  });
+  const { comunidades } = useComunidades();
+  const { responsables } = useResaponsables();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -9,6 +27,20 @@ export const Filtros = ({ props }) => {
     setFiltros({
       ...filtros,
       [name]: value,
+    });
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setNewProyect({
+      titulo: "",
+      descripcion: "",
+      fecha_inicio: "",
+      fecha_fin: "",
+      alcance: "",
+      presupuesto: "",
+      tema_id: "",
+      administrativo_id: "",
     });
   };
 
@@ -25,9 +57,11 @@ export const Filtros = ({ props }) => {
               value={filtros.id}
             >
               <option value="">Comunidades...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {comunidades.map((comunidad) => (
+                <option key={comunidad.id} value={comunidad.id}>
+                  {comunidad.nombre}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
         </Col>
@@ -40,10 +74,12 @@ export const Filtros = ({ props }) => {
               onChange={onChange}
               value={filtros.documento}
             >
-              <option value="">Responsables...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option value="">Responsables</option>
+              {responsables.map((item) => (
+                <option key={item.documento} value={item.documento}>
+                  {item.nombre_completo}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
         </Col>
@@ -60,9 +96,17 @@ export const Filtros = ({ props }) => {
           </Form.Group>
         </Col>
         <Col className="align-items-end d-flex justify-content-end">
-          <Button variant="dark" size="sm" className="mb-3">
+          <Button
+            variant="dark"
+            size="sm"
+            className="mb-3"
+            onClick={() => setShow(true)}
+          >
             Agregar proyecto
           </Button>
+          <RegistrarProyectos
+            props={{ show, setShow, newProyect, setNewProyect, handleClose }}
+          />
         </Col>
       </Row>
     </Form>

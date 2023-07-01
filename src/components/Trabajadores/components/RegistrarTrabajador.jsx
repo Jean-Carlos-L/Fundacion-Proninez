@@ -1,18 +1,33 @@
+import axios from "axios";
 import { Modal, Button, Row, Col, Form, FloatingLabel } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 export const RegistrarTrabajador = ({ props }) => {
-  const { show, handleClose, newUser, setNewUser } = props;
+  const { show, handleClose, newUser, setNewUser, setTipo } = props;
 
   const handleFields = (e) => {
     const { name, value } = e.target;
-    setNewUser({
-      ...newUser,
-      [name]: value,
-    });
+    if (name === "tipo") {
+      setNewUser({
+        ...newUser,
+        tipo: value,
+        [value]: "",
+      });
+    } else if (name === "cargo_especialidad") {
+      setNewUser({
+        ...newUser,
+        [name]: value,
+        [newUser.tipo]: value,
+      });
+    } else {
+      setNewUser({
+        ...newUser,
+        [name]: value,
+      });
+    }
   };
 
-  const onRegistrar = (e) => {
+  const onRegistrar = async (e) => {
     try {
       e.preventDefault();
       let validated = true;
@@ -24,7 +39,27 @@ export const RegistrarTrabajador = ({ props }) => {
       }
 
       if (validated) {
-        console.log("newUser", newUser);
+        const url = `${process.env.REACT_APP_URL}/fundacion_proninez/trabajadores`;
+        const { data } = await axios.post(url, newUser);
+
+        setNewUser({
+          documento: "",
+          nombre_completo: "",
+          telefono: "",
+          email: "",
+          salario: 0,
+          fecha_nacimiento: "",
+          direccion: "",
+          cargo_especialidad: "",
+          tipo: "",
+        });
+
+        setTipo("false");
+        Swal.fire({
+          icon: "success",
+          title: "Exitoso",
+          text: data.msg,
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -33,7 +68,12 @@ export const RegistrarTrabajador = ({ props }) => {
         });
       }
     } catch (e) {
-      console.error(e);
+      console.log(e);
+      Swal.fire({
+        icon: "error",
+        title: "Ooopss...",
+        text: e.getMessage,
+      });
     }
   };
 
@@ -116,8 +156,8 @@ export const RegistrarTrabajador = ({ props }) => {
                   onChange={handleFields}
                 >
                   <option value="">Tipo trabajador</option>
-                  <option value="Administrativo">Administrativo</option>
-                  <option value="Profesional">Profesional</option>
+                  <option value="cargo">Administrativo</option>
+                  <option value="especialidad">Profesional</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
