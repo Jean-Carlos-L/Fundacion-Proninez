@@ -13,12 +13,13 @@ import { useState } from "react";
 import { RegistrarComunidad } from "./components/RegistrarComunidad";
 
 function Comunidades() {
+  const [refresh, setRefresh] = useState(false);
   const [show, setShow] = useState(false);
   const [newComunidad, setNewComunidad] = useState({
     nombre: "",
     etnia: "",
   });
-  const { comunidades, isLoading, error } = useComunidades(show);
+  const { comunidades, isLoading, error } = useComunidades(refresh, show);
 
   const handleClose = () => {
     setShow(false);
@@ -85,7 +86,7 @@ function Comunidades() {
             xs={12}
             className="justify-content-center mb-3"
           >
-            <CardComunidad comunidad={comunidad} />
+            <CardComunidad comunidad={comunidad} setRefresh={setRefresh} />
           </Col>
         ))}
       </Row>

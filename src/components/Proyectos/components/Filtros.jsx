@@ -84,7 +84,7 @@ export const Filtros = ({ props }) => {
           </Form.Group>
         </Col>
         <Col>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Group className="mb-3">
             <Form.Label>Valoracion</Form.Label>
             <Form.Control
               type="number"
@@ -107,6 +107,32 @@ export const Filtros = ({ props }) => {
           <RegistrarProyectos
             props={{ show, setShow, newProyect, setNewProyect, handleClose }}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Label>Fecha inicio</Form.Label>
+            <Form.Control
+              type="date"
+              size="sm"
+              name="fecha_inicio"
+              onChange={onChange}
+              value={filtros.fecha_inicio}
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Label>Fecha fin</Form.Label>
+            <Form.Control
+              type="date"
+              size="sm"
+              name="fecha_fin"
+              onChange={onChange}
+              value={filtros.fecha_fin}
+            />
+          </Form.Group>
         </Col>
       </Row>
     </Form>

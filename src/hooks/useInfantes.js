@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useResaponsables = (refresh) => {
-  const [responsables, setResponsables] = useState([]);
+export const useInfantes = (refresh, { proyecto, sexo, comunidad }) => {
+  const [infantes, setInfantes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        const url = `${process.env.REACT_APP_URL}/fundacion_proninez/trabajadores/administrativo`;
+        const url = `${process.env.REACT_APP_URL}/fundacion_proninez/infantes/?sexo=${sexo}&proyecto=${proyecto}&comunidad=${comunidad}`;
         const { data } = await axios.get(url);
-        setResponsables(data);
+        setInfantes(data);
       } catch (e) {
         setError(e);
       } finally {
@@ -20,7 +20,7 @@ export const useResaponsables = (refresh) => {
     };
 
     fetch();
-  }, [refresh]);
+  }, [refresh, proyecto, sexo, comunidad]);
 
-  return { responsables, isLoading, error };
+  return { infantes, isLoading, error };
 };

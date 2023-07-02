@@ -5,13 +5,16 @@ import { useProyectos } from "./hooks/useProyectos";
 import { Filtros } from "./components/Filtros";
 
 function Proyectos() {
+  const [refresh, setRefresh] = useState(false);
   const [filtros, setFiltros] = useState({
     id: "",
     documento: "",
     valoracion: "",
+    fecha_inicio: "",
+    fecha_fin: "",
   });
 
-  const { proyectos, isLoading, error } = useProyectos(filtros);
+  const { proyectos, isLoading, error } = useProyectos(refresh, filtros);
 
   if (isLoading) {
     return (
@@ -70,7 +73,7 @@ function Proyectos() {
             xs={12}
             className="justify-content-center mb-3"
           >
-            <CardProyecto proyecto={proyecto} />
+            <CardProyecto proyecto={proyecto} setRefresh={setRefresh} />
           </Col>
         ))}
       </Row>

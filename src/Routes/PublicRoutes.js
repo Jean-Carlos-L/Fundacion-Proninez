@@ -4,6 +4,7 @@ import Layout from "../components/layouts/Layout";
 import Objetivos from "../components/Objetivos/Objetivos";
 import Trabajadores from "../components/Trabajadores/Trabajadores";
 import Comunidades from "../components/Comunidades/Comunidades";
+import Infantes from "../components/Infantes/Infantes";
 
 function PublicRoutes() {
   return (
@@ -13,6 +14,7 @@ function PublicRoutes() {
         <Route exact path="objetivos" element={<Objetivos />} />
         <Route exact path="trabajadores" element={<Trabajadores />} />
         <Route exact path="comunidades" element={<Comunidades />} />
+        <Route exact path="infantes" element={<Infantes />} />
       </Route>
     </Routes>
   );

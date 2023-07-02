@@ -7,11 +7,17 @@ import {
   Form,
   Table,
   Button,
+  ButtonGroup,
 } from "react-bootstrap";
+import { BsTrash3Fill } from "react-icons/bs";
 import { RegistrarTrabajador } from "./components/RegistrarTrabajador";
 import { useTrabajadores } from "../../hooks/useTrabajadores";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { ActualizarSalario } from "./components/ActualizarSalario";
 
 function Trabajadores() {
+  const [refresh, setRefresh] = useState(false);
   const [tipo, setTipo] = useState("false");
   const [show, setShow] = useState(false);
   const [newUser, setNewUser] = useState({
@@ -26,7 +32,7 @@ function Trabajadores() {
     tipo: "",
   });
 
-  const { trabajadores } = useTrabajadores(tipo);
+  let { trabajadores } = useTrabajadores(refresh, tipo);
 
   const handleClose = () => {
     setNewUser({
@@ -41,6 +47,26 @@ function Trabajadores() {
       tipo: "",
     });
     setShow(false);
+  };
+
+  const deleteTrabajador = async (trabajador_id) => {
+    try {
+      const url = `${process.env.REACT_APP_URL}/fundacion_proninez/trabajadores/${trabajador_id}`;
+      const { data } = await axios.patch(url);
+      Swal.fire({
+        icon: "success",
+        title: "Exito",
+        text: data.msg,
+      });
+
+      setRefresh((prevRefresh) => !prevRefresh);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Ooops...",
+        text: error.message,
+      });
+    }
   };
 
   return (
@@ -90,6 +116,7 @@ function Trabajadores() {
                 <th>DIRECCIÓN</th>
                 <th>SALARIO</th>
                 <th>TIPO</th>
+                <th>ACCIONES</th>
               </tr>
             </thead>
             <tbody>
@@ -102,6 +129,21 @@ function Trabajadores() {
                   <td>{item.direccion}</td>
                   <td>{item.salario}</td>
                   <td>{item.cargo || item.especialidad}</td>
+                  <td>
+                    <ButtonGroup aria-label="Basic example">
+                      <ActualizarSalario
+                        documento={item.documento}
+                        setRefresh={setRefresh}
+                      />
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => deleteTrabajador(item.documento)}
+                      >
+                        <BsTrash3Fill />
+                      </Button>
+                    </ButtonGroup>
+                  </td>
                 </tr>
               ))}
             </tbody>

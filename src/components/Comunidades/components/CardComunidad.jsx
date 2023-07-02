@@ -1,9 +1,33 @@
 import { Button, Card, ListGroup } from "react-bootstrap";
 import { BsTrash3Fill } from "react-icons/bs";
 import { ModalListInfantes } from "./ModalListInfantes";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-export const CardComunidad = ({ comunidad }) => {
+export const CardComunidad = ({ comunidad, setRefresh }) => {
   const { infantes } = comunidad;
+
+  const deleteComunidad = async (comunidad_id) => {
+    try {
+      const url = `${process.env.REACT_APP_URL}/fundacion_proninez/comunidades/${comunidad_id}`;
+      const { data } = await axios.patch(url);
+
+      Swal.fire({
+        icon: "success",
+        title: "Exito",
+        text: data.msg,
+      });
+
+      setRefresh((prevRefresh) => !prevRefresh);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ooops...",
+        text: error.message,
+      });
+    }
+  };
 
   return (
     <Card className="shadow">
@@ -27,7 +51,12 @@ export const CardComunidad = ({ comunidad }) => {
         <Card.Text>
           <ModalListInfantes infantes={infantes} />
         </Card.Text>
-        <Button size="sm" variant="danger" className="fs-5 me-1">
+        <Button
+          size="sm"
+          variant="danger"
+          className="fs-5 me-1"
+          onClick={() => deleteComunidad(comunidad.id)}
+        >
           <BsTrash3Fill />
         </Button>
       </Card.Body>

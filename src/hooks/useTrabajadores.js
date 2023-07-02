@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useTrabajadores = (tipo = "false") => {
+export const useTrabajadores = (refresh, tipo = "false") => {
   const [trabajadores, setTrabajadores] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -20,7 +20,7 @@ export const useTrabajadores = (tipo = "false") => {
     };
 
     fetch();
-  }, [tipo]);
+  }, [refresh, tipo]);
 
   return { trabajadores, isLoading, error };
 };

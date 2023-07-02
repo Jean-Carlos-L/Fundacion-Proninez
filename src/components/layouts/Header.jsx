@@ -21,6 +21,9 @@ function Header() {
           <Link className="nav-link" to="comunidades">
             Comunidades
           </Link>
+          <Link className="nav-link" to="infantes">
+            Infantes
+          </Link>
         </Nav>
       </Container>
     </Navbar>
