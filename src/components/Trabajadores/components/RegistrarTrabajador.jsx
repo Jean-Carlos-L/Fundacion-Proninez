@@ -32,11 +32,14 @@ export const RegistrarTrabajador = ({ props }) => {
       e.preventDefault();
       let validated = true;
       for (let key in newUser) {
-        if (newUser[key] === "") {
-          validated = false;
-          break;
-        }
+        if (key !== "tipo" && key !== "cargo" && key !== "especialidad")
+          if (newUser[key] === "") {
+            validated = false;
+            break;
+          }
       }
+
+      console.log("newUser", newUser);
 
       if (validated) {
         const url = `${process.env.REACT_APP_URL}/fundacion_proninez/trabajadores`;

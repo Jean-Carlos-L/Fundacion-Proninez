@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Container, Row, Col, Badge, Spinner, Alert } from "react-bootstrap";
 import { CardProyecto } from "./components/CardProyecto";
-import { useProyectos } from "./hooks/useProyectos";
 import { Filtros } from "./components/Filtros";
+import { useProyectos } from "../../hooks/useProyectos";
 
 function Proyectos() {
   const [refresh, setRefresh] = useState(false);

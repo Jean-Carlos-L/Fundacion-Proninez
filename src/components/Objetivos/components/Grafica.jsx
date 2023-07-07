@@ -37,8 +37,8 @@ function Grafica({ datos }) {
     let labels = [];
     let dataset = [];
     datos.forEach((item) => {
-      labels.push(item.objetivo);
-      dataset.push(item.cumplimiento);
+      labels.push(item.nombreObjetivo);
+      dataset.push(item.valoracionObjetivo);
     });
 
     setLabels(labels);

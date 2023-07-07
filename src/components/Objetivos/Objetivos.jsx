@@ -1,15 +1,35 @@
-import React from "react";
-import { Container, Row, Col, Badge, ListGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Badge, ListGroup, Button } from "react-bootstrap";
 import Grafica from "./components/Grafica";
 import { Buscador } from "./components/Buscador";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 function Objetivos() {
-  const objetivos = [
-    { objetivo: "Hola", cumplimiento: 100 },
-    { objetivo: "Hola 1", cumplimiento: 50 },
-    { objetivo: "Hola 2", cumplimiento: 10 },
-    { objetivo: "Hola 4", cumplimiento: 20 },
-  ];
+  const [objetivos, setObjetivos] = useState([]);
+  const [objetivo, setObjetivo] = useState("");
+
+  const queryObjetivos = async () => {
+    try {
+      if (objetivo === "") {
+        Swal.fire({
+          icon: "error",
+          title: "Ooops...",
+          text: "Selecciona un proyecto",
+        });
+      } else {
+        const url = `${process.env.REACT_APP_URL}/fundacion_proninez/objetivos/${objetivo}`;
+        const { data } = await axios.get(url);
+        setObjetivos(data);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Ooops...",
+        text: error.message,
+      });
+    }
+  };
 
   return (
     <Container>
@@ -20,7 +40,12 @@ function Objetivos() {
       </Row>
       <Row className="mb-3 justify-content-center">
         <Col xs={6}>
-          <Buscador />
+          <Buscador setObjetivo={setObjetivo} />
+        </Col>
+        <Col>
+          <Button variant="primary" size="sm" onClick={queryObjetivos}>
+            Buscar
+          </Button>
         </Col>
       </Row>
       <Row className="mb-3">
@@ -28,7 +53,7 @@ function Objetivos() {
           <ListGroup variant="flush">
             {objetivos.map((item, i) => (
               <ListGroup.Item key={i}>
-                {item.objetivo} - {item.cumplimiento}
+                {item.nombreObjetivo} - {item.valoracionObjetivo}
               </ListGroup.Item>
             ))}
           </ListGroup>
